@@ -15,7 +15,7 @@ function Get-CRC8 {
         .INPUTS
             byte[]
         .OUTPUTS
-            uint32
+            byte
         .LINK
 
 
