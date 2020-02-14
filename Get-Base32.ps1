@@ -42,11 +42,13 @@ function Get-Base32 {
 	    [Convert]::ToString($_, 2).PadLeft(8, '0')
 	    }
 	 
+	    $byteArrayAsBinaryString = $($byteArrayAsBinaryString+("0000".Substring(0,5-($byteArrayAsBinaryString.length%5))))
 	 
 	    $x = [regex]::Replace($byteArrayAsBinaryString, '.{5}', {
     		param($Match)
     		'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'[[Convert]::ToInt32($Match.Value, 2)]
 	    })
+	    ## no ending == support yet !!!
 	    Write-Output $x
     }
 }
