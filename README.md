@@ -26,3 +26,9 @@ $a= [System.Text.Encoding]::ASCII.GetBytes("Power") | Get-CRC8
 $a.ToString("X2")
 
 ```
+
+
+```
+Import-Module ./Get-Base32.ps1
+[System.Text.Encoding]::ASCII.GetBytes("kupaaa")  | Get-Base32 -EnablePadding $False 
+```
