@@ -12,12 +12,17 @@ to some other values from [Wiki](https://en.wikipedia.org/wiki/Cyclic_redundancy
 
 * Example usage:
 ```
-$b= [System.Text.Encoding]::ASCII.GetBytes("Power") | Get-Base32
+$base32= [System.Text.Encoding]::ASCII.GetBytes("Power") | Get-Base32
 
-"base32: $b"
+"base32: $base32"
+
+$wop = [System.Text.Encoding]::ASCII.GetBytes("Power") | Get-Base32 -EnablePadding $False
+"base32 without = padding: $wop"
+
 
 $a= [System.Text.Encoding]::ASCII.GetBytes("Power") | Get-CRC8
 
 [String]::Format("{0:x2}", $a)
 $a.ToString("X2")
+
 ```

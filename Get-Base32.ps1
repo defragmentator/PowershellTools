@@ -23,7 +23,10 @@ function Get-Base32 {
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true)]
         [ValidateNotNullOrEmpty()]
-	[byte[]] $InputObject
+	[byte[]] $InputObject,
+	[Parameter(Mandatory=$false)]
+	[Alias("EnablePadding")]
+	[bool]$pad   = $True	
      )
 
     Process {
@@ -41,15 +44,26 @@ function Get-Base32 {
     	    $byteArrayAsBinaryString = -join $dataArray.ForEach{
 	    [Convert]::ToString($_, 2).PadLeft(8, '0')
 	    }
-	 
+        
+            $padding=""
+	    if($pad -eq $True)
+    	    {
+		switch ($byteArrayAsBinaryString.length % 5){
+		    1 { $padding="====" }
+		    2 { $padding="=" }
+		    3 { $padding="======" }
+		    4 { $padding="===" }
+		}
+    	    }
+      
 	    $byteArrayAsBinaryString = $($byteArrayAsBinaryString+("0000".Substring(0,5-($byteArrayAsBinaryString.length%5))))
 	 
 	    $x = [regex]::Replace($byteArrayAsBinaryString, '.{5}', {
     		param($Match)
     		'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'[[Convert]::ToInt32($Match.Value, 2)]
 	    })
-	    ## no ending == support yet !!!
-	    Write-Output $x
+	    Write-Output "$x$padding"
     }
 }
 
+    
